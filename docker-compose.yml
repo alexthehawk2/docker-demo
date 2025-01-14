@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  nextjs:
+    build:
+      context: ./my-app
+      dockerfile: Dockerfile
+    container_name: next-js-app
+    networks:
+      - app-network
+    # volumes:
+    #   - .:/usr/src/app
+    #   - /usr/src/app/node_modules
+    #   - /usr/src/app/.next
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - nextjs
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
