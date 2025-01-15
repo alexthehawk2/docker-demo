@@ -8,10 +8,6 @@ services:
     container_name: next-js-app
     networks:
       - app-network
-    # volumes:
-    #   - .:/usr/src/app
-    #   - /usr/src/app/node_modules
-    #   - /usr/src/app/.next
     restart: unless-stopped
 
   nginx:
@@ -21,6 +17,10 @@ services:
     container_name: nginx-proxy
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - ./certs:/etc/nginx/ssl:ro # Mount SSL certificates
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro # Mount custom Nginx config
     depends_on:
       - nextjs
     networks:

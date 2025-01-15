@@ -1,4 +1,4 @@
- FROM alpine:latest
+FROM alpine:latest
 
 # Install Node.js
 RUN apk add --update nodejs npm
